@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMT Level I Sample Test - Bar Chart Patterns</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap">
+    <style>
+        :root {
+            --bg-primary: #f5f5f7;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-color: #0071e3;
+            --card-bg: white;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .question-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow:
+                0 4px 6px var(--shadow-light),
+                0 8px 24px var(--shadow-medium);
+            margin-bottom: 20px;
+        }
+
+        .question-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .options {
+            margin-bottom: 10px;
+        }
+
+        .option {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005bb5;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
+        }
+
+        .results {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CMT Level I Sample Test - Bar Chart Patterns</h1>
+
+        <div id="quiz"></div>
+        
+        <div class="results" id="results"></div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "What does a bullish engulfing pattern indicate?",
+                options: [
+                    "A continuation of a downtrend",
+                    "A potential reversal to an uptrend",
+                    "Indecision in the market",
+                    "A strong bearish signal"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "Which of the following is a characteristic of a head and shoulders pattern?",
+                options: [
+                    "It indicates a bullish reversal",
+                    "It consists of three peaks",
+                    "It is formed only in downtrends",
+                    "It has no significance in technical analysis"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "What does a double top pattern signify?",
+                options: [
+                    "Continuation of an uptrend",
+                    "Potential reversal to a downtrend",
+                    "Indecision in the market",
+                    "Strong bullish momentum"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "In bar chart patterns, what does the term 'consolidation' refer to?",
+                options: [
+                    "A period of increasing volatility",
+                    "A sideways movement in price",
+                    "A sharp price movement",
+                    "A clear trend direction"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "What is the significance of volume in bar chart patterns?",
+                options: [
+                    "Volume is irrelevant",
+                    "Higher volume confirms the strength of the pattern",
+                    "Lower volume indicates false signals",
+                    "Volume only matters in candlestick patterns"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "What does a bearish engulfing pattern indicate?",
+                options: [
+                    "A potential reversal to a downtrend",
+                    "A continuation of an uptrend",
+                    "Indecision in the market",
+                    "Strong bullish momentum"
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Which of the following patterns indicates a potential trend reversal?",
+                options: [
+                    "Head and Shoulders",
+                    "Cup and Handle",
+                    "Flags and Pennants",
+                    "All of the above"
+                ],
+                correctAnswer: 3
+            }
+        ];
+
+        const quizContainer = document.getElementById("quiz");
+
+        questions.forEach((q, index) => {
+            const questionCard = document.createElement("div");
+            questionCard.className = "question-card";
+            questionCard.innerHTML = `
+                <h3>Question ${index + 1}: ${q.question}</h3>
+                <div class="options">
+                    ${q.options
+                        .map(
+                            (option, i) => `
+                        <label class="option">
+                            <input type="radio" name="q${index}" value="${i}">
+                            ${option}
+                        </label>
+                    `
+                        )
+                        .join("")}
+                </div>
+                <button onclick="checkAnswer(${index})">Show Answer</button>
+                <div class="feedback" id="feedback${index}"></div>
+            `;
+            quizContainer.appendChild(questionCard);
+        });
+
+        function checkAnswer(questionIndex) {
+            const selectedOption = document.querySelector(
+                `input[name="q${questionIndex}"]:checked`
+            );
+            const feedbackDiv = document.getElementById(`feedback${questionIndex}`);
+
+            if (selectedOption) {
+                const userAnswer = parseInt(selectedOption.value);
+                const correctAnswer = questions[questionIndex].correctAnswer;
+
+                if (userAnswer === correctAnswer) {
+                    feedbackDiv.textContent = `Correct!`;
+                    feedbackDiv.className = "feedback correct";
+                } else {
+                    feedbackDiv.textContent = `Incorrect. The correct answer is: ${questions[questionIndex].options[correctAnswer]}`;
+                    feedbackDiv.className = "feedback incorrect";
+                }
+            } else {
+                feedbackDiv.textContent = `Please select an answer.`;
+                feedbackDiv.className = "feedback";
+            }
+        }
+    </script>
+</body>
+</html>

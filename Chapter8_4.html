@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMT Level I Sample Test - Bar Chart Patterns</title>
+    <style>
+        /* Apple-inspired UI styles */
+        :root {
+            --bg-primary: #f4f7fb;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-color: #007aff;
+            --card-bg: white;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-medium: rgba(0, 0, 0, 0.12);
+            --button-hover: #005bb5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: #1d1d1f;
+        }
+
+        .quiz-container {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 4px 6px var(--shadow-light), 0 8px 24px var(--shadow-medium);
+            padding: 30px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .question-card {
+            margin-bottom: 25px;
+        }
+
+        .question {
+            font-size: 20px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .options {
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .option {
+            background: #f2f2f7;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 16px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .option:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .button {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .button:hover {
+            background-color: var(--button-hover);
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
+        }
+
+        .results {
+            margin-top: 40px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .button-container button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 30%;
+            transition: background-color 0.3s;
+        }
+
+        .button-container button:hover {
+            background-color: var(--button-hover);
+        }
+    </style>
+</head>
+<body>
+    <h1>CMT Level I Sample Test - Bar Chart Patterns</h1>
+
+    <div class="quiz-container" id="quiz"></div>
+
+    <div class="button-container">
+        <button class="button" onclick="goHome()">Home</button>
+        <button class="button" onclick="goBack()">Back</button>
+        <button class="button" onclick="skipQuestion()">Skip</button>
+    </div>
+
+    <div class="results" id="results"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "What does a bullish engulfing pattern indicate?",
+                options: [
+                    "A continuation of a downtrend",
+                    "A potential reversal to an uptrend",
+                    "Indecision in the market",
+                    "A strong bearish signal"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "Which of the following is a characteristic of a head and shoulders pattern?",
+                options: [
+                    "It indicates a bullish reversal",
+                    "It consists of three peaks",
+                    "It is formed only in downtrends",
+                    "It has no significance in technical analysis"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "What does a double top pattern signify?",
+                options: [
+                    "Continuation of an uptrend",
+                    "Potential reversal to a downtrend",
+                    "Indecision in the market",
+                    "Strong bullish momentum"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "In bar chart patterns, what does the term 'consolidation' refer to?",
+                options: [
+                    "A period of increasing volatility",
+                    "A sideways movement in price",
+                    "A sharp price movement",
+                    "A clear trend direction"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "What is the significance of volume in bar chart patterns?",
+                options: [
+                    "Volume is irrelevant",
+                    "Higher volume confirms the strength of the pattern",
+                    "Lower volume indicates false signals",
+                    "Volume only matters in candlestick patterns"
+                ],
+                correctAnswer: 1
+            },
+            {
+                question: "What does a bearish engulfing pattern indicate?",
+                options: [
+                    "A potential reversal to a downtrend",
+                    "A continuation of an uptrend",
+                    "Indecision in the market",
+                    "Strong bullish momentum"
+                ],
+                correctAnswer: 0
+            },
+            {
+                question: "Which of the following patterns indicates a potential trend reversal?",
+                options: [
+                    "Head and Shoulders",
+                    "Cup and Handle",
+                    "Flags and Pennants",
+                    "All of the above"
+                ],
+                correctAnswer: 3
+            }
+        ];
+
+        const quizContainer = document.getElementById("quiz");
+
+        let currentQuestionIndex = 0;
+
+        function displayQuestion(index) {
+            const question = questions[index];
+            quizContainer.innerHTML = `
+                <div class="question-card">
+                    <div class="question">${question.question}</div>
+                    <div class="options">
+                        ${question.options
+                            .map(
+                                (option, i) => `
+                                <div class="option" onclick="checkAnswer(${i}, ${index})">${option}</div>
+                            `
+                            )
+                            .join('')}
+                    </div>
+                    <div id="feedback${index}" class="feedback"></div>
+                </div>
+            `;
+        }
+
+        function checkAnswer(selectedOption, questionIndex) {
+            const feedbackDiv = document.getElementById(`feedback${questionIndex}`);
+            const correctAnswer = questions[questionIndex].correctAnswer;
+
+            if (selectedOption === correctAnswer) {
+                feedbackDiv.textContent = "Correct!";
+                feedbackDiv.className = "feedback correct";
+            } else {
+                feedbackDiv.textContent = `Incorrect. The correct answer is: ${questions[questionIndex].options[correctAnswer]}`;
+                feedbackDiv.className = "feedback incorrect";
+            }
+
+            setTimeout(() => {
+                if (currentQuestionIndex < questions.length - 1) {
+                    currentQuestionIndex++;
+                    displayQuestion(currentQuestionIndex);
+                } else {
+                    alert("Quiz Finished! Well Done!");
+                }
+            }, 2000);
+        }
+
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+
+        function goBack() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion(currentQuestionIndex);
+            }
+        }
+
+        function skipQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion(currentQuestionIndex);
+            }
+        }
+
+        displayQuestion(currentQuestionIndex);
+    </script>
+</body>
+</html>
